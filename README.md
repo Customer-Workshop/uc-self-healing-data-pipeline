@@ -14,38 +14,7 @@ Modern data engineering teams spend 60-70% of their time on operational issues r
 
 ## 🏗️ Architecture
 
-```mermaid
-flowchart LR
-    Producer((Event Producer)) -->|JSON/Avro| Kafka[(Kafka Topic)]
-    Kafka --> Spark[Spark Structured Streaming]
-    Spark -->|Curated Batch| Sink[(Parquet or Snowflake)]
-    Spark -->|Run Report| Ops[/Ops Reports/]
-    
-    subgraph Airflow[Airflow Orchestration]
-        A1[Monitor Kafka] --> A2[Run Spark Job]
-        A2 --> A3[Run Data Quality]
-        A3 --> A4[Agent Decision]
-        A4 --> A5[Validate Load]
-    end
-    
-    subgraph Agent[Decision Agent]
-        LLM[LangChain LLM]
-        Tools[Remediation Tools]
-        LLM --> Tools
-    end
-    
-    Ops --> Agent
-    Agent -->|Actions| Airflow
-    Agent -->|Quarantine/Notify| Ops
-    
-    subgraph Monitoring
-        Slack[Slack Alerts]
-        Email[Email Alerts]
-        Incidents[Incident Store]
-    end
-    
-    Agent --> Monitoring
-```
+![Autonomous Data Pipeline Architecture](architecture/architecture-diagram.png)
 
 ## 🚀 Quick Start
 
