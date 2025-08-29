@@ -1,6 +1,6 @@
-# LinkedIn Assets
+# Architecture Assets
 
-This folder contains assets for sharing your Autonomous Data Pipeline Orchestrator project on LinkedIn.
+This folder contains architecture diagrams and assets for the Autonomous Data Pipeline Orchestrator project.
 
 ## Files
 
