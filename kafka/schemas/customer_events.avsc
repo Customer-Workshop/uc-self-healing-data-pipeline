@@ -1,0 +1,71 @@
+{
+  "type": "record",
+  "name": "CustomerEvent",
+  "namespace": "com.dataeng.events",
+  "doc": "Schema for customer events in the data pipeline",
+  "fields": [
+    {
+      "name": "id",
+      "type": "string",
+      "doc": "Unique customer identifier"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "doc": "Customer full name"
+    },
+    {
+      "name": "email",
+      "type": "string",
+      "doc": "Customer email address"
+    },
+    {
+      "name": "signup_ts",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      },
+      "doc": "Customer signup timestamp in milliseconds"
+    },
+    {
+      "name": "country",
+      "type": "string",
+      "doc": "Customer country code (ISO 3166-1 alpha-2)"
+    },
+    {
+      "name": "plan",
+      "type": {
+        "type": "enum",
+        "name": "SubscriptionPlan",
+        "symbols": ["free", "basic", "premium", "enterprise"]
+      },
+      "doc": "Customer subscription plan"
+    },
+    {
+      "name": "event_ts",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      },
+      "doc": "Event timestamp in milliseconds"
+    },
+    {
+      "name": "version",
+      "type": "int",
+      "default": 1,
+      "doc": "Schema version for handling evolution"
+    },
+    {
+      "name": "marketing_opt_in",
+      "type": ["null", "boolean"],
+      "default": null,
+      "doc": "Marketing opt-in preference (added in v2 for schema drift simulation)"
+    },
+    {
+      "name": "customer_segment",
+      "type": ["null", "string"],
+      "default": null,
+      "doc": "Customer segment classification (added in v3 for schema drift simulation)"
+    }
+  ]
+}

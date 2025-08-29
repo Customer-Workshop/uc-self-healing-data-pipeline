@@ -1,0 +1,6 @@
+kafka-python==2.0.2
+avro-python3==1.11.3
+python-dotenv==1.0.0
+click==8.1.7
+faker==20.1.0
+numpy==1.24.3

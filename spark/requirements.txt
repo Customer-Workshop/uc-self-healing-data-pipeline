@@ -1,0 +1,8 @@
+pyspark==3.4.0
+kafka-python==2.0.2
+python-dotenv==1.0.0
+snowflake-connector-python==3.6.0
+avro==1.11.3
+great-expectations==0.18.8
+pandas==2.0.3
+pyarrow==12.0.1

@@ -1,0 +1,106 @@
+business_rules:
+  customer_data_quality:
+    description: "Core customer data validation rules"
+    expectations:
+      - expectation_type: "expect_column_to_exist"
+        column: "id"
+        meta:
+          notes: "Customer ID is mandatory for all records"
+      
+      - expectation_type: "expect_column_values_to_not_be_null"
+        column: "id"
+        meta:
+          notes: "Customer ID cannot be null"
+      
+      - expectation_type: "expect_column_values_to_be_unique"
+        column: "id"
+        meta:
+          notes: "Customer ID must be unique within batch"
+      
+      - expectation_type: "expect_column_to_exist"
+        column: "email"
+        meta:
+          notes: "Email is mandatory for customer records"
+      
+      - expectation_type: "expect_column_values_to_not_be_null"
+        column: "email"
+        meta:
+          notes: "Email cannot be null"
+      
+      - expectation_type: "expect_column_values_to_match_regex"
+        column: "email"
+        regex: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+        meta:
+          notes: "Email must be in valid format"
+      
+      - expectation_type: "expect_column_values_to_be_in_set"
+        column: "plan"
+        value_set: ["free", "basic", "premium", "enterprise"]
+        meta:
+          notes: "Plan must be one of the allowed subscription types"
+      
+      - expectation_type: "expect_column_values_to_be_of_type"
+        column: "signup_ts"
+        type_: "datetime64[ns]"
+        meta:
+          notes: "Signup timestamp must be valid datetime"
+      
+      - expectation_type: "expect_column_values_to_be_between"
+        column: "signup_ts"
+        min_value: "2020-01-01"
+        max_value: null  # current timestamp will be used
+        parse_strings_as_datetimes: true
+        meta:
+          notes: "Signup timestamp should not be in future and not before 2020"
+      
+      - expectation_type: "expect_column_pair_values_A_to_be_greater_than_B"
+        column_A: "event_ts"
+        column_B: "signup_ts"
+        or_equal: true
+        meta:
+          notes: "Event timestamp should be after or equal to signup timestamp"
+
+  data_freshness:
+    description: "Data freshness and timeliness validation"
+    expectations:
+      - expectation_type: "expect_column_values_to_be_between"
+        column: "event_ts"
+        min_value: null  # 24 hours ago will be calculated
+        max_value: null  # current timestamp will be used
+        parse_strings_as_datetimes: true
+        meta:
+          notes: "Event should be within last 24 hours (configurable threshold)"
+
+field_mappings:
+  # Maps business field names to technical column names
+  customer_id: "id"
+  customer_email: "email"
+  subscription_plan: "plan"
+  registration_date: "signup_ts"
+  event_timestamp: "event_ts"
+  customer_name: "name"
+  customer_country: "country"
+  schema_version: "version"
+
+validation_thresholds:
+  # Percentage thresholds for different validation failures
+  critical_failures: 0.01    # 1% - immediate escalation
+  warning_failures: 0.05     # 5% - notify but continue
+  acceptable_failures: 0.10  # 10% - log only
+  
+quality_dimensions:
+  completeness:
+    - "id"
+    - "email"
+    - "name"
+  validity:
+    - "email"
+    - "plan" 
+    - "signup_ts"
+    - "event_ts"
+  consistency:
+    - ["event_ts", "signup_ts"]  # event_ts >= signup_ts
+  timeliness:
+    - "event_ts"
+  uniqueness:
+    - "id"

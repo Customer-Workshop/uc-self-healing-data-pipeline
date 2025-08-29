@@ -1,0 +1,207 @@
+{
+  "data_asset_type": null,
+  "expectation_suite_name": "customers_expectation_suite",
+  "expectations": [
+    {
+      "expectation_type": "expect_column_to_exist",
+      "kwargs": {
+        "column": "id"
+      },
+      "meta": {
+        "notes": {
+          "format": "markdown",
+          "content": "Customer ID is mandatory for all records and serves as the primary key."
+        }
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "id"
+      },
+      "meta": {
+        "notes": {
+          "format": "markdown", 
+          "content": "Customer ID cannot be null as it's the primary identifier."
+        }
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_unique",
+      "kwargs": {
+        "column": "id"
+      },
+      "meta": {
+        "notes": {
+          "format": "markdown",
+          "content": "Customer ID must be unique within each batch to prevent duplicates."
+        }
+      }
+    },
+    {
+      "expectation_type": "expect_column_to_exist",
+      "kwargs": {
+        "column": "email"
+      },
+      "meta": {
+        "notes": {
+          "format": "markdown",
+          "content": "Email is mandatory for customer communication and identification."
+        }
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "email"
+      },
+      "meta": {
+        "notes": {
+          "format": "markdown",
+          "content": "Email cannot be null as it's required for customer contact."
+        }
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_match_regex",
+      "kwargs": {
+        "column": "email",
+        "regex": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+      },
+      "meta": {
+        "notes": {
+          "format": "markdown",
+          "content": "Email must be in valid format with @ symbol and domain."
+        }
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_in_set",
+      "kwargs": {
+        "column": "plan",
+        "value_set": ["free", "basic", "premium", "enterprise"]
+      },
+      "meta": {
+        "notes": {
+          "format": "markdown",
+          "content": "Plan must be one of the allowed subscription types."
+        }
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_of_type",
+      "kwargs": {
+        "column": "signup_timestamp",
+        "type_": "datetime64[ns]"
+      },
+      "meta": {
+        "notes": {
+          "format": "markdown",
+          "content": "Signup timestamp must be a valid datetime object."
+        }
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_between",
+      "kwargs": {
+        "column": "signup_timestamp",
+        "min_value": "2020-01-01T00:00:00",
+        "max_value": null,
+        "parse_strings_as_datetimes": true
+      },
+      "meta": {
+        "notes": {
+          "format": "markdown",
+          "content": "Signup timestamp should not be in the future and not before 2020-01-01."
+        }
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_of_type",
+      "kwargs": {
+        "column": "event_timestamp",
+        "type_": "datetime64[ns]"
+      },
+      "meta": {
+        "notes": {
+          "format": "markdown",
+          "content": "Event timestamp must be a valid datetime object."
+        }
+      }
+    },
+    {
+      "expectation_type": "expect_column_pair_values_A_to_be_greater_than_or_equal_to_B",
+      "kwargs": {
+        "column_A": "event_timestamp",
+        "column_B": "signup_timestamp"
+      },
+      "meta": {
+        "notes": {
+          "format": "markdown",
+          "content": "Event timestamp should be after or equal to signup timestamp."
+        }
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_between",
+      "kwargs": {
+        "column": "event_timestamp",
+        "min_value": null,
+        "max_value": null,
+        "parse_strings_as_datetimes": true
+      },
+      "meta": {
+        "notes": {
+          "format": "markdown",
+          "content": "Event should be within reasonable timeframe (calculated dynamically)."
+        }
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_in_set",
+      "kwargs": {
+        "column": "country",
+        "value_set": ["US", "CA", "GB", "DE", "FR", "AU", "JP", "IN", "BR", "MX", "ES", "IT", "NL", "SE", "NO", "DK", "FI"]
+      },
+      "meta": {
+        "notes": {
+          "format": "markdown",
+          "content": "Country must be a valid ISO country code from our supported regions."
+        }
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "name"
+      },
+      "meta": {
+        "notes": {
+          "format": "markdown",
+          "content": "Customer name should not be null for personalization."
+        }
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_between",
+      "kwargs": {
+        "column": "version",
+        "min_value": 1,
+        "max_value": 10
+      },
+      "meta": {
+        "notes": {
+          "format": "markdown",
+          "content": "Schema version should be between 1 and 10 for supported versions."
+        }
+      }
+    }
+  ],
+  "ge_cloud_id": null,
+  "meta": {
+    "great_expectations_version": "0.18.8",
+    "description": "Data quality expectations for customer events in the autonomous data pipeline",
+    "created_by": "pipeline_orchestrator",
+    "created_at": "2024-01-01T00:00:00Z"
+  }
+}

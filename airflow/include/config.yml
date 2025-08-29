@@ -1,0 +1,55 @@
+kafka:
+  broker: ${KAFKA_BROKER}
+  topic: ${KAFKA_TOPIC}
+  consumer_group: "spark-streaming-group"
+
+spark:
+  master: ${SPARK_MASTER}
+  app_name: "data-pipeline-ingest"
+  checkpoint_location: ${SPARK_CHECKPOINT_LOCATION}
+  packages:
+    - "org.apache.spark:spark-sql-kafka-0-10_2.12:3.4.0"
+    - "org.apache.spark:spark-avro_2.12:3.4.0"
+    - "net.snowflake:snowflake-jdbc:3.13.30"
+    - "net.snowflake:spark-snowflake_2.12:2.11.0-spark_3.4"
+
+snowflake:
+  account: ${SNOWFLAKE_ACCOUNT}
+  user: ${SNOWFLAKE_USER}
+  password: ${SNOWFLAKE_PASSWORD}
+  warehouse: ${SNOWFLAKE_WAREHOUSE}
+  database: ${SNOWFLAKE_DATABASE}
+  schema: ${SNOWFLAKE_SCHEMA}
+  role: ${SNOWFLAKE_ROLE}
+  table: ${SNOWFLAKE_TABLE}
+
+output:
+  sink_mode: ${SINK_MODE}
+  parquet_path: ${PARQUET_OUT}
+
+data_quality:
+  expectations_suite: "/opt/airflow/include/../../../dq/expectations/customers_expectation_suite.json"
+  checkpoint_config: "/opt/airflow/include/../../../dq/ge_checkpoint.yml"
+  results_path: "/data/ops/ge_results.json"
+
+dag:
+  schedule_interval: "*/5 * * * *"  # Every 5 minutes
+  max_active_runs: 1
+  catchup: false
+  retries: 2
+  retry_delay_minutes: 2
+  email_on_failure: true
+  email_on_retry: false
+  sla_minutes: 15
+
+monitoring:
+  late_arrival_threshold_minutes: 15
+  schema_drift_action: "remap"  # remap, quarantine, escalate
+  dq_failure_threshold: 0.05  # 5% failure rate
+  incident_escalation_threshold: 3  # consecutive failures
+
+agent:
+  llm_provider: ${LLM_PROVIDER}
+  ollama_model: ${OLLAMA_MODEL}
+  openai_api_key: ${OPENAI_API_KEY}
+  decision_context_window: 10  # number of recent runs to consider
