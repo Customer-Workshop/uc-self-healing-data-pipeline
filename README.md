@@ -1,5 +1,10 @@
 # Autonomous Data Pipeline Orchestrator
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![CI](https://img.shields.io/badge/CI-placeholder-blue.svg)](https://github.com/AbdulSohail018/Autonomous-Orchestrator-Ai/actions)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+
 A self-healing data pipeline that monitors ingestion jobs (Kafka → Spark → Snowflake), detects anomalies (schema drift, late arrivals, failed jobs), and autonomously decides remediation strategies using agentic AI.
 
 ## 🎯 Why This Matters
@@ -13,6 +18,8 @@ Modern data engineering teams spend 60-70% of their time on operational issues r
 - **Full observability**: Complete audit trail of all decisions and actions
 
 ## 🏗️ Architecture
+
+![Orchestrator Architecture](architecture/overview.png)
 
 ```mermaid
 flowchart LR
@@ -97,6 +104,16 @@ make airflow-trigger
 # Or use Airflow UI to enable and trigger autonomous_data_pipeline DAG
 ```
 
+### 6. Demo & Data Quality
+
+```bash
+# Run demo events (happy path, schema drift, late arrival)
+make demo
+
+# View Great Expectations Data Docs
+make ge-docs
+```
+
 ## 📊 Data Flow
 
 1. **Event Generation**: Producer generates customer events with configurable anomalies
@@ -145,7 +162,7 @@ PARQUET_OUT=/data/out/parquet
 
 # LLM Configuration
 LLM_PROVIDER=ollama  # or openai
-OLLAMA_MODEL=llama3.1
+OLLAMA_MODEL=llama3.1:8b
 OPENAI_API_KEY=your-key
 
 # Alerting
@@ -176,9 +193,13 @@ df.write \
     .save()
 ```
 
-Required JARs (already included in Spark configuration):
-- `net.snowflake:snowflake-jdbc:3.13.30`
-- `net.snowflake:spark-snowflake_2.12:2.11.0-spark_3.4`
+### Known-good Versions
+
+- **Spark**: 3.4.1
+- **Snowflake JDBC**: 3.13.30
+- **spark-snowflake_2.12**: 2.11.0-spark_3.4
+
+These JARs are already included in the Spark configuration.
 
 ### Data Quality Rules
 
