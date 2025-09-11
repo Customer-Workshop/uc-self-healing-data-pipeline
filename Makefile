@@ -1,7 +1,7 @@
 # Autonomous Data Pipeline Orchestrator Makefile
 # Provides convenient commands for development, testing, and deployment
 
-.PHONY: help setup up down logs test fmt lint clean install-deps validate
+.PHONY: help setup up down logs test fmt lint clean install-deps validate demo ge-docs
 
 # Default target
 .DEFAULT_GOAL := help
@@ -110,15 +110,15 @@ test-coverage: ## Run tests with coverage report
 	@python -m pytest tests/ --cov=agent --cov=ops --cov-report=html --cov-report=term
 	@echo "Coverage report generated in htmlcov/"
 
-fmt: ## Format code with black and isort
+fmt: ## Format code with Black and Ruff
 	@echo "Formatting code..."
-	@black $(PYTHON_DIRS)
-	@isort $(PYTHON_DIRS)
+	@black .
+	@ruff check . --fix
 	@echo "Code formatted."
 
-lint: ## Run linting with ruff
+lint: ## Run linting with Ruff
 	@echo "Running linter..."
-	@ruff check $(PYTHON_DIRS)
+	@ruff check .
 	@echo "Linting completed."
 
 lint-fix: ## Run linting with auto-fix
@@ -232,3 +232,11 @@ quick-start: dev-setup up ## Quick start for new users
 	@echo "Quick start completed!"
 	@echo "Services are starting up..."
 	@echo "Wait 2-3 minutes for all services to be ready."
+
+demo: ## Publishing tiny demo events (happy, schema drift, late arrival)
+	@echo "Publishing tiny demo events (happy, schema drift, late arrival)..."
+	@python scripts/publish_demo_events.py
+
+ge-docs: ## Building Great Expectations Data Docs
+	@echo "Building Great Expectations Data Docs..."
+	@great_expectations docs build
