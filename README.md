@@ -19,8 +19,6 @@ Modern data engineering teams spend 60-70% of their time on operational issues r
 
 ## 🏗️ Architecture
 
-![Orchestrator Architecture](architecture/overview.png)
-
 ```mermaid
 flowchart LR
     Producer((Event Producer)) -->|JSON/Avro| Kafka[(Kafka Topic)]
