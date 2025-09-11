@@ -58,8 +58,8 @@ flowchart LR
 ### 1. Clone and Setup
 
 ```bash
-git clone <repository>
-cd autonomous-data-pipeline
+git clone https://github.com/AbdulSohail018/Autonomous-Orchestrator-Ai.git
+cd Autonomous-Orchestrator-Ai
 make setup
 ```
 
@@ -84,7 +84,7 @@ make monitor
 ### 4. Access UIs
 
 - **Airflow**: http://localhost:8080 (airflow/airflow)
-- **Kafka UI**: http://localhost:8080 (Kafka monitoring)
+- **Kafka UI**: http://localhost:8081 (Kafka monitoring)
 - **Spark Master**: http://localhost:8082
 - **MailHog**: http://localhost:8025 (email testing)
 
@@ -223,6 +223,9 @@ make dev-setup
 
 # Install dependencies
 make install-deps
+
+# Install pre-commit hooks (run once after setup)
+pre-commit install
 
 # Format and lint code
 make fmt lint

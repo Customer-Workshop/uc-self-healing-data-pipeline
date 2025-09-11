@@ -44,7 +44,7 @@ up: ## Start all services (Kafka + Airflow + Spark + Producer)
 	@export AIRFLOW_UID=$(AIRFLOW_UID) && docker-compose $(DOCKER_COMPOSE_FILES) up -d
 	@echo "Services starting..."
 	@echo "Airflow UI: http://localhost:8080 (airflow/airflow)"
-	@echo "Kafka UI: http://localhost:8080 (for Kafka monitoring)"
+	@echo "Kafka UI: http://localhost:8081 (for Kafka monitoring)"
 	@echo "Spark Master UI: http://localhost:8082"
 	@echo "MailHog UI: http://localhost:8025"
 	@echo ""
@@ -54,7 +54,7 @@ up-kafka: ## Start only Kafka services for development
 	@echo "Starting Kafka services..."
 	@docker-compose $(KAFKA_COMPOSE_FILES) up -d
 	@echo "Kafka services started."
-	@echo "Kafka UI: http://localhost:8080"
+	@echo "Kafka UI: http://localhost:8081"
 
 down: ## Stop all services and remove containers
 	@echo "Stopping all services..."
@@ -208,7 +208,7 @@ docs: ## Generate documentation (if available)
 	@echo "Documentation links:"
 	@echo "==================="
 	@echo "Airflow UI: http://localhost:8080"
-	@echo "Kafka UI: http://localhost:8080"
+	@echo "Kafka UI: http://localhost:8081"
 	@echo "Spark Master UI: http://localhost:8082"
 	@echo "MailHog UI: http://localhost:8025"
 	@echo ""
